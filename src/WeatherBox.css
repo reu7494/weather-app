@@ -1,0 +1,21 @@
+.weather-box {
+  border: 2px solid #333;
+  padding: 16px;
+  width: 250px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  font-family: "Segoe UI", sans-serif;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
