@@ -1,4 +1,7 @@
 .weather-box {
+  background-image: url("./cloudimage.jpg");
+  background-size: cover;
+  background-position: center;
   border: 2px solid #333;
   padding: 16px;
   width: 250px;

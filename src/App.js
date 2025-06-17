@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import WeatherBox from "./WeatherBox";
+import cloudImage from "./cloudimage.jpg";
 
 export default function App() {
   const [location, setLocation] = useState("");
