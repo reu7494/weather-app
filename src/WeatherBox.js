@@ -1,14 +1,36 @@
+import { useEffect, useState } from "react";
+
 export default function WeatherBox({ weatherData }) {
-  function formatTimezone(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours}시 ${minutes}분 ${secs}초`;
-  }
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="weather-box">
       <div className="weather-information">
         <h2 className="city">{weatherData?.name}</h2>
+        <h2>
+          현재 시각:{" "}
+          <span className="time-data">
+            {currentTime.toLocaleDateString("ko-KR", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+            <br />
+            {currentTime.toLocaleTimeString("ko-KR", {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })}
+          </span>
+        </h2>
         <h3>
           현재 온도:
           <span className="temp">
