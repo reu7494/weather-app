@@ -16,18 +16,21 @@ export default function WeatherBox({ weatherData }) {
       <div className="weather-information">
         <h2 className="city">{weatherData?.name}</h2>
         <h2>
+          {currentTime.toLocaleDateString({
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </h2>
+        <h2>
           현재 시각:{" "}
           <span className="time-data">
-            {currentTime.toLocaleDateString("ko-KR", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-            <br />
-            {currentTime.toLocaleTimeString("ko-KR", {
+            {currentTime.toLocaleTimeString({
               hour: "2-digit",
               minute: "2-digit",
               second: "2-digit",
+              hour12: false,
+              timeZone: "Asia/Seoul",
             })}
           </span>
         </h2>
@@ -45,9 +48,6 @@ export default function WeatherBox({ weatherData }) {
         </h3>
         <h4>
           습도:<span className="temp">{weatherData?.main.humidity}%</span>
-        </h4>
-        <h4>
-          기압:<span className="temp">{weatherData?.main.pressure}hPa</span>
         </h4>
         <p>
           구름 분포도:
