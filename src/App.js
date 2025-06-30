@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { WeatherBox } from "./WeatherBox";
 import { WeatherDescKo } from "./WeatherDescKo";
-import { WeatherTime } from "./WeatherTime";
 
 export default function App() {
   const [weatherData, setWeatherData] = useState({
@@ -11,6 +10,9 @@ export default function App() {
     temp_max: 0,
     weatherIconUrl: undefined, //날씨 정보
     description: "",
+    wind: 0,
+    rain: 0,
+    humidity: 0,
   });
 
   const API_KEY = process.env.REACT_APP_WEATHER_KEY;
@@ -31,6 +33,9 @@ export default function App() {
       );
       const data = await res.json();
       const location = data.name; //도시명
+      const wind = data.wind; //풍속
+      const rain = weatherData.rain["1h"]; //강수량
+      const humidity = data.main.humidity;
 
       const temp = Math.round(data.main.temp); //현재 온도
       const temp_min = Math.round(data.main.temp_min); //최저 온도
@@ -49,6 +54,9 @@ export default function App() {
         temp_max,
         weatherIconUrl,
         description,
+        wind,
+        rain,
+        humidity,
       });
       console.log("weatherId:", weatherId);
       console.log("description from WeatherDescKo:", WeatherDescKo[weatherId]);
