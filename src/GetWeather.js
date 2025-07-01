@@ -1,72 +1,67 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { WeatherBox } from "./WeatherBox";
 import { WeatherDescKo } from "./WeatherDescKo";
 
-export function getWeather() {
-  const [weatherData, setWeatherData] = useState({
-    location: "",
-    temp: 0,
-    temp_min: 0,
-    temp_max: 0,
-    weatherIconUrl: undefined, //날씨 정보
-    description: "",
-    wind: 0,
-    rain: 0,
-    humidity: 0,
-  });
-
+export function GetWeather() {
+  const [cityId, setCityId] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
   const API_KEY = process.env.REACT_APP_WEATHER_KEY;
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    //사용자의 위도, 경도 가져오기
-    let lat = position.coords.latitude;
-    let lon = position.coords.longitude;
-    getWeather(lat, lon);
-  });
+  const cities = [
+    { id: 1835848, name: "Seoul" },
+    { id: 1850147, name: "Tokyo" },
+    { id: 5128581, name: "New York" },
+    { id: 2643743, name: "London" },
+    //원하는 지역은 city.list.json에서 번호 찾아서 입력
+  ];
 
-  const getWeather = async (lat, lon) => {
+  const fetchWeatherByCityId = async (id) => {
     try {
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${API_KEY}&units=metric`
       );
       const data = await res.json();
-      const location = data.name; //도시명
-      const wind = data.wind; //풍속
-      const rain = weatherData.rain["1h"]; //강수량
-      const humidity = data.main.humidity;
+      const weatherId = data.weather[0].id;
+      const weatherIcon = data.weather[0].icon;
 
-      const temp = Math.round(data.main.temp); //현재 온도
-      const temp_min = Math.round(data.main.temp_min); //최저 온도
-      const temp_max = Math.round(data.main.temp_max); //최고 온도
+      const weather = {
+        location: data.name,
+        temp: Math.round(data.main.temp),
+        temp_min: Math.round(data.main.temp_min),
+        temp_max: Math.round(data.main.temp_max),
+        weatherIconUrl: `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`,
+        description: WeatherDescKo[weatherId],
+        wind: data.wind,
+        rain: data.rain || {},
+        humidity: data.main.humidity,
+      };
 
-      const weatherIcon = data.weather[0].icon; //날씨 아이콘 코드
-      const weatherIconUrl = `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
-
-      const weatherId = data.weather[0].id; // 날씨 조건 코드(800은 맑음)
-      const description = WeatherDescKo[weatherId];
-
-      setWeatherData({
-        location,
-        temp,
-        temp_min,
-        temp_max,
-        weatherIconUrl,
-        description,
-        wind,
-        rain,
-        humidity,
-      });
-      console.log("weatherId:", weatherId);
-      console.log("description from WeatherDescKo:", WeatherDescKo[weatherId]);
-      console.log(data);
-    } catch (err) {
-      console.log(err);
+      setWeatherData(weather);
+    } catch (error) {
+      console.error("선택 도시 날씨 오류:", error);
     }
+  };
+
+  const handleChange = (e) => {
+    const selectedId = e.target.value;
+    setCityId(selectedId);
+    fetchWeatherByCityId(selectedId);
   };
 
   return (
     <>
-      <WeatherBox weatherData={weatherData} />
+      <div className="city-position">
+        <select value={cityId} onChange={handleChange}>
+          <option value="">-- 도시 선택 --</option>
+          {cities.map((city) => (
+            <option key={city.id} value={city.id}>
+              {city.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {weatherData && <WeatherBox weatherData={weatherData} />}
     </>
   );
 }
