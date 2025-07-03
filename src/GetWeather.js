@@ -29,7 +29,7 @@ export function GetWeather() {
         temp: Math.round(data.main.temp),
         temp_min: Math.round(data.main.temp_min),
         temp_max: Math.round(data.main.temp_max),
-        weatherIconUrl: `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`,
+        weatherIconUrl: `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`,
         description: WeatherDescKo[weatherId],
         wind: data.wind,
         rain: data.rain || {},

@@ -39,7 +39,7 @@ export default function App() {
         temp: Math.round(data.main.temp), //현재 온도
         temp_min: Math.round(data.main.temp_min), //최저 온도
         temp_max: Math.round(data.main.temp_max), //최고 온도
-        weatherIconUrl: `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`,
+        weatherIconUrl: `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`,
         description: WeatherDescKo[weatherId], //날씨 설명( ex) 800 맑음)
         wind: data.wind, //풍속
         rain: data.rain, //강수량
