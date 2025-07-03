@@ -44,11 +44,7 @@ export default function App() {
         rain: data.rain, //강수량
         humidity: data.main.humidity, //습도
       };
-
       setWeatherData(weather);
-      console.log("weatherId:", weatherId);
-      console.log("description from WeatherDescKo:", WeatherDescKo[weatherId]);
-      console.log(data);
     } catch (err) {
       console.log(err);
     }
