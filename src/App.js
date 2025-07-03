@@ -17,13 +17,14 @@ export default function App() {
   });
 
   const API_KEY = process.env.REACT_APP_WEATHER_KEY;
-
-  navigator.geolocation.getCurrentPosition((position) => {
-    //사용자의 위도, 경도 가져오기
-    let lat = position.coords.latitude;
-    let lon = position.coords.longitude;
-    getWeather(lat, lon);
-  });
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      //사용자의 위도, 경도 가져오기
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      getWeather(lat, lon);
+    });
+  }, []);
 
   const getWeather = async (lat, lon) => {
     try {
