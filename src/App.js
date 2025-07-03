@@ -1,3 +1,5 @@
+//weather-app-gold-delta-82.vercel.app 주소
+
 import { useState, useEffect } from "react";
 import { WeatherBox } from "./WeatherBox";
 import { WeatherDescKo } from "./WeatherDescKo";
